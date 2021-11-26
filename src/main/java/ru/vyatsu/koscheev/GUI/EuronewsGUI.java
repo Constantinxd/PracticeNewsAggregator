@@ -35,34 +35,27 @@ public class EuronewsGUI extends Application
         count = 0;
         GridPane gridPane = new GridPane();
 
-        Button startButton = new Button("Start");
+        Button startButton = new Button("Загрузить новости");
         startButton.setMaxWidth(Double.MAX_VALUE);
         startButton.setMaxHeight(Double.MAX_VALUE);
         GridPane.setHgrow(startButton, Priority.ALWAYS);
         gridPane.add(startButton, 0,0);
-
-        Button abortButton = new Button("Abort");
-        abortButton.setMaxWidth(Double.MAX_VALUE);
-        abortButton.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setHgrow(abortButton, Priority.ALWAYS);
-        gridPane.add(abortButton, 1,0);
 
         HBox numOfBlocksHBox = new HBox();
         Label numOfBlocksLabel = new Label("Количество новостных блоков: ");
         numOfBlocksTextField = new TextField("1");
         numOfBlocksHBox.getChildren().addAll(numOfBlocksLabel, numOfBlocksTextField);
         numOfBlocksHBox.setAlignment(Pos.CENTER);
-        gridPane.add(numOfBlocksHBox, 0,2, 2, 1);
+        gridPane.add(numOfBlocksHBox, 0,2);
 
         hBox = new VBox();
 
         ScrollPane scrollPane = new ScrollPane(hBox);
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
-
         GridPane.setHalignment(scrollPane, HPos.CENTER);
         GridPane.setVgrow(scrollPane, Priority.ALWAYS);
-        gridPane.add(scrollPane, 0, 1, 2, 1);
+        gridPane.add(scrollPane, 0, 1);
 
         startButton.setOnAction(e -> {
             hBox.getChildren().clear();
@@ -78,18 +71,10 @@ public class EuronewsGUI extends Application
 
             try {
                 parser.Start();
-                Thread.sleep(5000);
-                parser.Abort();
             } catch (IOException | InterruptedException ex) {
                 ex.printStackTrace();
             }
         });
-
-        abortButton.setOnAction(e -> {
-            if (parser != null)
-                parser.Abort();
-        });
-
 
         stage.setScene(new Scene(gridPane));
         stage.setTitle("Euronews");

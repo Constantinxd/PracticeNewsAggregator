@@ -10,7 +10,7 @@ public class ParserWorkerEuronews<T> {
     private Parser<T> parser;
     private ParserSettings parserSettings;
     private HtmlLoader loader;
-    private boolean isActive;
+
     private WebDriver driver;
 
     public final ArrayList<OnNewDataHandler<T>> onNewDataList;
@@ -25,7 +25,7 @@ public class ParserWorkerEuronews<T> {
 
     public void setParserSettings(ParserSettings parserSettings) {
         this.parserSettings = parserSettings;
-        loader = new EuronewsHtmlLoader();
+        loader = new EuronewsHtmlLoader(parserSettings);
     }
 
     public void setParser(Parser<T> parser) { this.parser = parser; }
@@ -36,23 +36,17 @@ public class ParserWorkerEuronews<T> {
     }
 
     public void Start() throws IOException, InterruptedException {
-        isActive = true;
         Worker();
-    }
-
-    public void Abort() {
-        isActive = false;
     }
 
     protected void Worker() {
         driver.get(loader.getUrl());
         loader.removeBanners(driver);
-
         loader.uploadContent(driver, parserSettings.numOfBlocks);
 
         T result = parser.Parse(driver);
         onNewDataList.get(0).OnNewData(this, result);
-        isActive = false;
+
         driver.quit();
         onCompletedList.get(0).OnCompleted(this);
     }

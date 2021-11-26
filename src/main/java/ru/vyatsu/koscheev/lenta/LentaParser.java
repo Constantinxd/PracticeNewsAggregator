@@ -31,7 +31,7 @@ public class LentaParser implements Parser<ArrayList<News>> {
                     news.content = new ArrayList<>();
                     for (var content : document.selectXpath("//div[@itemprop='articleBody']").get(0).children())
                         news.content.add(content.text());
-//div[contains(@class, 'b-topic__info')]//time[@class='g-date']
+
                     list.add(news);
                 }
                 else if (link.contains("moslenta.ru")) {
@@ -50,9 +50,8 @@ public class LentaParser implements Parser<ArrayList<News>> {
                     var content = document.selectXpath("//div[contains(@class, 'content-background')]//div[contains(@class, 'content')]//article");
                     var inner = content.get(0).selectXpath("//div[contains(@class, 'vikont')]//p");
                     news.content = new ArrayList<>();
-                    for (var i : inner) {
+                    for (var i : inner)
                         news.content.add(i.text());
-                    }
 
                     list.add(news);
                 }
@@ -70,9 +69,8 @@ public class LentaParser implements Parser<ArrayList<News>> {
 
         var elems = driver.findElements(by);
 
-        for (var l : elems) {
+        for (var l : elems)
             links.add(l.getAttribute("href"));
-        }
 
         return links;
     }

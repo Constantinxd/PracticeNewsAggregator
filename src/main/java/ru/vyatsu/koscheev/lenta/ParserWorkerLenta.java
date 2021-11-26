@@ -10,7 +10,6 @@ public class ParserWorkerLenta<T> {
     private Parser<T> parser;
     private ParserSettings parserSettings;
     private HtmlLoader loader;
-    private boolean isActive;
     private WebDriver driver;
 
     public final ArrayList<OnNewDataHandler<T>> onNewDataList;
@@ -25,7 +24,7 @@ public class ParserWorkerLenta<T> {
 
     public void setParserSettings(ParserSettings parserSettings) {
         this.parserSettings = parserSettings;
-        loader = new LentaHtmlLoader();
+        loader = new LentaHtmlLoader(parserSettings);
     }
 
     public void setParser(Parser<T> parser) { this.parser = parser; }
@@ -36,21 +35,16 @@ public class ParserWorkerLenta<T> {
     }
 
     public void Start() throws IOException, InterruptedException {
-        isActive = true;
         Worker();
-    }
-
-    public void Abort() {
-        isActive = false;
     }
 
     protected void Worker() {
         driver.get(loader.getUrl());
-
         loader.uploadContent(driver, parserSettings.numOfBlocks);
+
         T result = parser.Parse(driver);
         onNewDataList.get(0).OnNewData(this, result);
-        isActive = false;
+
         driver.quit();
         onCompletedList.get(0).OnCompleted(this);
     }

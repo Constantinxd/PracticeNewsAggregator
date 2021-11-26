@@ -55,9 +55,8 @@ public class EuronewsParser implements Parser<ArrayList<News>> {
 
         var elems = driver.findElements(by);
 
-        for (var l : elems) {
+        for (var l : elems)
             links.add(l.getAttribute("href"));
-        }
 
         return links;
     }

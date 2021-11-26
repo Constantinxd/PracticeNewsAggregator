@@ -10,8 +10,8 @@ import ru.vyatsu.koscheev.ParserSettings;
 import java.time.Duration;
 
 public class EuronewsHtmlLoader extends HtmlLoader {
-    public EuronewsHtmlLoader() {
-        this.url = ParserSettings.BASE_URL;
+    public EuronewsHtmlLoader(ParserSettings parserSettings) {
+        this.url = parserSettings.baseUrl;
     }
 
     public void uploadContent(WebDriver driver, int count) {
@@ -30,7 +30,6 @@ public class EuronewsHtmlLoader extends HtmlLoader {
 
     @Override
     public void removeBanners(WebDriver driver) {
-
         var banners = driver
                 .findElements(By.xpath("//button[@id='didomi-notice-agree-button']"));
         if (banners.size() > 0)

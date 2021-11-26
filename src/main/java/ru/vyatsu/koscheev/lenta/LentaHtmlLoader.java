@@ -10,8 +10,8 @@ import ru.vyatsu.koscheev.ParserSettings;
 import java.time.Duration;
 
 public class LentaHtmlLoader extends HtmlLoader {
-    public LentaHtmlLoader() {
-        this.url = ParserSettings.BASE_URL;
+    public LentaHtmlLoader(ParserSettings parserSettings) {
+        this.url = parserSettings.baseUrl;
     }
 
     public void uploadContent(WebDriver driver, int count) {
